@@ -1,7 +1,5 @@
 package thedepths;
 
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Runner {
@@ -9,156 +7,129 @@ public class Runner {
 
     static Scanner scan = new Scanner(System.in);
 
-    //combat use... customizability
-    protected static int age;
-    protected static int height;
-    protected static int weight;
-    protected static String name;
-    //combat
-    protected static int itemCount = 0;
-    protected static int health;
-    protected static int enemyHealth;
-    protected static int enemyAttack;
-    //used for random number calculation
-    protected static Random num = new Random();
-    //combat use
-    protected static int attack;
-    protected static int hold;
-    protected static ArrayList<Integer> deathCount = new ArrayList();
     //scanner use
     protected static String option;
 
     public static void main(String[] args) {
 //creates FightAI object to incorpate combat
-        FightAI obj = new FightAI();
+        FightAI fightObj = new FightAI();
+
+        //creates messages object to incorporate plot
+        Messages msgObj = new Messages();
+
+        //creates InfoGrabber object to incorporate user stats
+        InfoGrabber infoObj = new InfoGrabber();
+
+        //creates StatSetter object to incorporate use of total variable it contains
+        StatSetter statObj = new StatSetter();
 
         //prompts and info taken through scanners
-        System.out.println("Welcome to the void. What is your name?");
-        name = scan.nextLine();
+        infoObj.promptName();
+        infoObj.setName(scan.nextLine());
 
-        System.out.println("How old are you? (years)");
-        age = scan.nextInt();
+        infoObj.promptAge();
+        infoObj.setAge(scan.nextInt());
 
-        System.out.println("How tall are you? (inches)");
-        height = scan.nextInt();
+        infoObj.promptHeight();
+        infoObj.setHeight(scan.nextInt());
 
-        System.out.println("How much do you weight? (lbs)");
-        weight = scan.nextInt();
+        infoObj.promptWeight();
+        infoObj.setWeight(scan.nextInt());
 
-        if (height > 70 & weight > 200) {
-            health = 100;
-            attack = 75;
-        } else if (height > 70 & weight < 200) {
-            health = 75;
-            attack = 50;
-        } else if (height < 70 & weight > 200) {
+        msgObj.getScreenBlock();
 
-            health = 90;
-            attack = 70;
-        } else if (height < 70 & weight < 200) {
-            health = 50;
-            attack = 30;
-        }
-        //gain 20 health if at athetlic peak ages
-        if (age > 17 & age < 35) {
-            health += 20;
-        }
-
-        System.out.println(screenBlock());
-
-        System.out.printf("You stand in a field. There is a light pole nearby. The moon is fat and red. The cloud is skyless. What do you do? \n"
-                + "[a] inspect the lightpole \n"
-                + "[b] stay put \n"
-                + "[c] Move stealthily away from the light pole and observe from a distance \n");
+        msgObj.getVoidEntryMsg();
 
         option = scan.next();
-        System.out.println(seperator());
+        msgObj.getSeparator();
 //  OUTER A IF INSPECT LIGHT POLE
         if (option.equals("a")) {
 
-            System.out.printf("\n" + lightPoleTowards() + "\n");
+            msgObj.getInspectLightPole();
             option = scan.next();
-            System.out.println(seperator());
+            msgObj.getSeparator();
             //CLIMB THE LIGHT POLE AFTER MOVING CLOSER *PROMPTED BY OUTTER IF*
             if (option.equals("a")) {
 
-                System.out.printf("\n" + climbLightPole() + "\n");
+                msgObj.getClimbLightPole();
                 option = scan.next();
-                System.out.println(seperator());
+                msgObj.getSeparator();
                 //STAY ON LIGHT BULB
                 if (option.equals("a")) {
 
-                    System.out.printf("\n" + stayOnLightPole() + "\n");
+                    msgObj.getStayOnLightPole();
                     option = scan.next();
-                    System.out.println(seperator());
+                    msgObj.getSeparator();
                     //JUMP FROM LIGHTPOLE... DIE
                     if (option.equals("a")) {
 
-                        System.out.printf("\n" + death() + "\n");
-                        health = 0;
-                        System.out.println(seperator());
+                        msgObj.getDeath();
+                        System.out.println(infoObj.getName());
+                        System.exit(0);
+
                         //TRANSPORT.
                     } else if (option.equals("b")) {
 
-                        System.out.printf("\n" + woosh() + "\n");
+                        msgObj.woosh();
                     }
 
                     //  TRANSPORT
                 } else if (option.equals("b")) {
 
-                    System.out.printf("\n" + woosh() + "\n");
+                    msgObj.woosh();
                 }
                 //WAIT DIALOGUE *PROMPTED BY OUTTER IF*
             } else if (option.equals("b")) {
-
-                System.out.printf(waitDialogue() + "\n"
-                        + "[a] WAIT LONGER \n "
+                msgObj.getWait();
+                System.out.printf("\n[a] WAIT LONGER \n "
                         + "[b] walk towards the light pole\n");
 
                 option = scan.next();
-                System.out.println(seperator());
+                msgObj.getSeparator();
                 //TRANSPORT.
                 if (option.equals("a")) {
 
-                    System.out.printf("\n" + woosh() + "\n");
+                    msgObj.woosh();
                     // INSPECT LIGHT POLE
                 } else if (option.equals("b")) {
 
-                    System.out.printf("\n" + lightPoleTowards() + "\n");
+                    msgObj.getInspectLightPole();
                     option = scan.next();
-                    System.out.println(seperator());
+                    msgObj.getSeparator();
                     //CLIMB LIGHT POLL
                     if (option.equals("a")) {
 
-                        System.out.printf("\n" + climbLightPole() + "\n");
+                        msgObj.getClimbLightPole();
                         option = scan.next();
-                        System.out.println(seperator());
+                        msgObj.getSeparator();
                         //STAY PUT ON LIGHTBULB
                         if (option.equals("a")) {
 
-                            System.out.printf("\n" + stayOnLightPole() + "\n");
+                            msgObj.getStayOnLightPole();
                             option = scan.next();
-                            System.out.println(seperator());
+                            msgObj.getSeparator();
                             //JUMP FROM LIGHT POLE
                             if (option.equals("a")) {
 
-                                System.out.printf("\n" + death() + "\n");
-                                health = 0;
+                                msgObj.getDeath();
+                                System.out.println(infoObj.getName());
+                                System.exit(0);
+
                                 //TRANSPORT.
                             } else if (option.equals("b")) {
 
-                                System.out.printf("\n" + woosh() + "\n");
+                                msgObj.woosh();
 
                             }
                             //TRANSPORT.
                         } else if (option.equals("b")) {
 
-                            System.out.printf("\n" + woosh() + "\n");
+                            msgObj.woosh();
                         }
                         //TRANSPORT.
                     } else if (option.equals("b")) {
 
-                        System.out.printf("\n" + woosh() + "\n");
+                        msgObj.woosh();
 
                     }
                 }
@@ -167,91 +138,96 @@ public class Runner {
 
 //OUTER B IF
         } else if (option.equals("b")) {
-
-            System.out.printf(waitDialogue() + "\n"
-                    + "[a] Walk towards the lightpole. \n"
+            msgObj.getWait();
+            System.out.printf("\n[a] Walk towards the lightpole. \n"
                     + "[b] wait longer \n");
             option = scan.next();
-            System.out.println(seperator());
+            msgObj.getSeparator();
             //INSPECT LIGHTPOLE *PROMPTED BY B OUTTER*
             if (option.equals("a")) {
-                System.out.printf(lightPoleTowards());
+                msgObj.getInspectLightPole();
 
                 option = scan.next();
-                System.out.println(seperator());
+                msgObj.getSeparator();
                 if (option.equals("a")) {
 
-                    System.out.printf(climbLightPole());
+                    msgObj.getClimbLightPole();
 
                     option = scan.next();
-                    System.out.println(seperator());
+                    msgObj.getSeparator();
                     if (option.equals("a")) {
 
-                        System.out.println(stayOnLightPole());
+                        msgObj.getStayOnLightPole();
 
                         option = scan.next();
-                        System.out.println(seperator());
+                        msgObj.getSeparator();
                         if (option.equals("a")) {
 
-                            System.out.printf("\n" + death() + "\n");
-                            health = 0;
+                            msgObj.getDeath();
+                            System.out.println(infoObj.getName());
+                            System.exit(0);
+
+                            //TRANSPORT
                         } else if (option.equals("b")) {
 
-                            System.out.println(woosh());
+                            msgObj.woosh();
 
                         }
                         //TRANSPORT.
                     } else if (option.equals("b")) {
 
-                        System.out.println(woosh());
+                        msgObj.woosh();
                     }
 
                     //TRANSPORT.
                 } else if (option.equals("b")) {
 
-                    System.out.printf("\nSomething begins to sprint at you... \n" + woosh() + "\n");
+                    System.out.printf("\nSomething begins to sprint at you... \n");
+                    msgObj.woosh();
 
                 }
                 // WAIT DIALOGUE *PROMPTED BY B OUTTER*
             } else if (option.equals("b")) {
 
-                System.out.printf(waitDialogue() + "\n"
-                        + "[a] WAIT LONGER \n "
+                msgObj.getWait();
+                System.out.printf("\n[a] WAIT LONGER \n "
                         + "[b] Climb the light pole\n");
 
                 option = scan.next();
-                System.out.println(seperator());
+                msgObj.getSeparator();
                 //TRANSPORT.
                 if (option.equals("a")) {
 
-                    System.out.printf("\n" + woosh() + "\n");
+                    msgObj.woosh();
 
                 } //CLIMB LIGHT POLE
                 else if (option.equals("b")) {
 
-                    System.out.printf(climbLightPole());
+                    msgObj.getClimbLightPole();
                     option = scan.next();
-                    System.out.println(seperator());
+                    msgObj.getSeparator();
                     //STAY ON LIGHT POLE
                     if (option.equals("a")) {
 
-                        System.out.printf(stayOnLightPole());
+                        msgObj.getStayOnLightPole();
                         option = scan.next();
-                        System.out.println(seperator());
+                        msgObj.getSeparator();
                         //JUMP FROM LIGHT POLE (DIE)
                         if (option.equals("a")) {
 
-                            System.out.printf("\n" + death() + "\n");
-                            health = 0;
+                            msgObj.getDeath();
+                            System.out.println(infoObj.getName());
+                            System.exit(0);
+
                             //TRANSPORT.
                         } else if (option.equals("b")) {
 
-                            System.out.printf("\n" + woosh() + "\n");
+                            msgObj.woosh();
                         }
                         //TRANSPORT.
                     } else if (option.equals("b")) {
 
-                        System.out.println("\n" + woosh() + "\n");
+                        msgObj.woosh();
                     }
                 }
 
@@ -265,7 +241,7 @@ public class Runner {
                     + "[a] run to the light in the opposite direction \n"
                     + "[b] observe what the figure is doing \n");
             option = scan.next();
-            System.out.println(seperator());
+            msgObj.getSeparator();
             //walk to light in opposite direction *PROMPTED BY C OUTTER*
             if (option.equals("a")) {
 
@@ -276,107 +252,36 @@ public class Runner {
                 //TRANSPORT.
                 if (option.equals("a")) {
 
-                    System.out.printf("\nA demon runs from the woodline and intercepts you. Something else comes into sight... \n" + woosh() + "\n");
+                    System.out.printf("\nA demon runs from the woodline and intercepts you. Something else comes into sight... \n");
+                    msgObj.woosh();
                     //DEATH
                 } else if (option.equals("b")) {
 
-                    System.out.printf("\nYou go to the edge of the woods. A demon greets you. " + death() + "\n");
+                    System.out.printf("\nYou go to the edge of the woods. A demon greets you. ");
+                    msgObj.getDeath();
+                    System.out.print(infoObj.getName());
                     System.exit(0);
                 }
                 //OBSERVE FIGURE *PROMPTED BY C OUTTER*
             } else if (option.equals("b")) {
-                System.out.printf("\nThe figure begins to fly to you. \n" + woosh() + "\n");
+                System.out.printf("\nThe figure begins to fly to you. \n");
+                msgObj.woosh();
             }
 
         }
 
 //calls fight ai
-        obj.AI();
-        //no need for this to be in an if statement or anything since this will only execute if you find a key. if you don't find a key, you
-        //are either dead or quit
-        System.out.println("You found a key. You unlock a door that suddenly become visible in front of you. You realize that life has no inherant "
-                + "meaning, and that it's merely what you make of it. Have a nice day, folk(s).");
+        System.out.println("test1");
+        if (statObj.getTotal() > 1500) {
+            msgObj.getPowerfulBeing();
+            msgObj.getEndMessage();
+        } else if (statObj.getTotal() <= 1500) {
+            fightObj.AI();
+            msgObj.getEndMessage();
+        }
 
-    }
-
-//death message
-    public static String death() {
-
-        String n = "You died. You proved useless, " + name + ".";
-        return n;
-
-    }
-
-    //option ot stay on light pole
-    public static String stayOnLightPole() {
-
-        String n = "You stay and watch the figure. The figure starts climbing the pole. What do you do? \n"
-                + "[a] jump off of the light pole \n"
-                + "[b] stay on the light pole \n";
-
-        return n;
-    }
-
-    //option to climb light pole
-    public static String climbLightPole() {
-
-        String n = "You climb the light pole. Once at the top, you can see 4 lights in each distance. You also see a figure at the base of the light. "
-                + "What do you do? \n"
-                + "[a] stay put \n"
-                + "[b] climb down \n";
-        return n;
-    }
-
-    // "woosh" means to teleport to another state in the game
-    public static String woosh() {
-
-        String n = "You are attacked by a figure....";
-
-        return "\n" + n + "\n" + screenBlock();
-
-    }
-
-    //prompt if you elect to wait
-    public static String waitDialogue() {
-
-        String n = "You wait. After a while, nothing happens. What do you do?";
-        return n;
-
-    }
-//prompt if you elect to inspect light pole
-
-    public static String lightPoleTowards() {
-
-        String n = "You slowly creep towards the lightpole. It's wooden and a frail ladder is on its side. You see it has a powerline "
-                + "that goes underground. What do you do?\n"
-                + "[a] climb the lightpole \n"
-                + "[b] stay put \n";
-
-        return n;
-
-    }
-
-    //adds lines for clean look
-    public static String seperator() {
-
-        String n = "-------------------------------------------------------------------------------------------------------------";
-        return n;
-    }
-
-    //used for separating states in the game
-    public static String screenBlock() {
-        String b = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
-        String n = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~woosh~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
-        String concatenate = b + "\n" + b + "\n" + b + "\n" + b + "\n          " + n + "\n" + b + "\n" + b + "\n" + b + "\n" + b + "\n";
-
-        return concatenate;
-    }
-
-    //used when you enter the depth
-    public static String depthEntrance() {
-
-        String n = "You wake up in the depth. You have a sword in your hand. You elect yourself to defeat the monsters and get the hell out of this place.";
-        return n;
+        //closed the scanner because although it doesn't change functionality, it makes it so java doesn't yell at me.
+        scan.close();
     }
 
 }
