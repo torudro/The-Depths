@@ -1,52 +1,37 @@
 package thedepths;
 
 //for combat use... customizability
+import java.util.Scanner;
+
 public class InfoGrabber {
 
-    protected int age;
-    protected int height;
-    protected int weight;
+    Messages msgObj = new Messages();
+//variables for storage
+    int age;
+    int weight;
+    int height;
+    String name;
 
-    private String name;
-
-    //setters
-    void setName(String n) {
-        name = n;
-    }
-
-    void setAge(int a) {
-        age = a;
-    }
-
-    void setHeight(int h) {
-        height = h;
-    }
-
-    void setWeight(int w) {
-        weight = w;
-    }
-
-    //getter (only 1 because only 1 is needed)
-    String getName() {
+    //returns name. getter
+    public String getName() {
 
         return name;
+
     }
 
-    //prompters
-    void promptName() {
-        System.out.println("What is your name?");
-    }
+    //prompts info and sets variables to entered values
+    public InfoGrabber() {
 
-    void promptAge() {
-        System.out.println("What is your age? (years)");
-    }
+        Scanner scan = new Scanner(System.in);
+        msgObj.promptName();
+        name = scan.nextLine();
+        msgObj.promptAge();
+        age = scan.nextInt();
+        msgObj.promptWeight();
+        weight = scan.nextInt();
+        msgObj.promptHeight();
+        height = scan.nextInt();
 
-    void promptHeight() {
-        System.out.println("What is your height? (inches)");
-    }
-
-    void promptWeight() {
-        System.out.println("What is your weight? (pounds)");
     }
 
 }

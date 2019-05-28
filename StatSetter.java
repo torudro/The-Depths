@@ -1,19 +1,26 @@
 package thedepths;
 
-public class StatSetter extends InfoGrabber {
+import java.util.Scanner;
+
+public class StatSetter {
+    
+    
     //formula is (weight* height)/(age)
 
+    //act as sentinels for if statements
     private final int QUARTILE_1 = 400;
     private final int QUARTILE_2 = 950;
     private final int QUARTILE_3 = 1500;
-    private final int TOTAL = (weight * height) / (age);
+    //private  int total = ((weight * height) / (age));
 
     private int playerHealth;
     private int playerAttack;
 
-    //getter
-    public int getTotal() {
-        return TOTAL;
+   
+      
+    //getters
+    public int getTotal(InfoGrabber infoObj) {
+        return ((infoObj.weight * infoObj.height) / (infoObj.age));
     }
 
     public int getPlayerHealth() {
@@ -35,21 +42,23 @@ public class StatSetter extends InfoGrabber {
 
     }
 
-    public void StatSetter() {
+    //sets stats based on player total
+    public void setStats(InfoGrabber infoObj){
+        
         //if total is less than or equal to 400, then set
-        if (total <= QUARTILE_1) {
+        if ((infoObj.weight * infoObj.height) / (infoObj.age) <= QUARTILE_1) {
 
             playerHealth = 50;
             playerAttack = 30;
 
             //if total is above 450 but lessthan/equalto 950, then set
-        } else if (total <= QUARTILE_2) {
+        } else if (((infoObj.weight * infoObj.height) / (infoObj.age)) <= QUARTILE_2) {
 
             playerHealth = 100;
             playerAttack = 50;
 
             //if total is above 950, but lessthan/equalto 1500
-        } else if (total <= QUARTILE_3) {
+        } else if ((infoObj.weight * infoObj.height) / (infoObj.age) <= QUARTILE_3) {
 
             playerHealth = 150;
             playerAttack = 90;
@@ -58,9 +67,14 @@ public class StatSetter extends InfoGrabber {
         //none for above 1500, because easteregg. if above 1500 then you automatically win and skip the combat
 
         //gain 20 health if at athetlic peak ages
-        if (age > 17 & age < 35) {
+        if (infoObj.age > 17 & infoObj.age < 35) {
             playerHealth += 20;
         }
 
+        
+    }
+    //passes in infoObj, notice how it does not call it because if you called it then it would call the prompts
+    public StatSetter(InfoGrabber infoObj) {
+      
     }
 }

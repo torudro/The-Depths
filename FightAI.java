@@ -6,20 +6,36 @@ import java.util.Scanner;
 
 public class FightAI {
 
-    //used for random number calculation
-    protected static Random num = new Random();
-
-    protected static ArrayList<Integer> deathCount = new ArrayList();
-
+    
+    public FightAI(InfoGrabber infoObj){
+        
+    }
+    
+    
     //if you are not dead, then you progress.
-    Messages msgObj = new Messages();
-    StatSetter statObj = new StatSetter();
+    
+    
+
+    public void AI(InfoGrabber infoObj) {
+        Messages msgObj = new Messages();
+    StatSetter statObj = new StatSetter(infoObj);
     Scanner scan = new Scanner(System.in);
     String option;
-
-    public void AI() {
+        
+        //used for random number calculation
+     Random num = new Random();
+        
+        //keeps count number of enemies killed
+    ArrayList<Integer> deathCount = new ArrayList();
+    
+    //keeps count number of moves
+            ArrayList<Integer> moveCount = new ArrayList();
+    
+            //used with moveCount list to display the sum of the values in moveCount
+            int storeMoves = 0;
+            
         //used with deathCount list to display the sum of values in deathCount
-        int store = 0;
+        int storeDeaths = 0;
 
         //used to hold randomInt to determine if player has found item
         int randomInt;
@@ -30,6 +46,7 @@ public class FightAI {
         int itemCount = 0;
 
         int healthHolder = 0;
+        System.out.println("fightAI test");
         if (statObj.getPlayerHealth() > 0) {
             msgObj.getDepthsEntryMsg();
             //This loop goes until the user finds a particular item. Once the item is found, the user progresses.
@@ -47,6 +64,14 @@ public class FightAI {
                     enemyAttack = 1 + num.nextInt(70);
                     //takes enemyhealth based on user attack amnt
                     while (enemyHealth > 0) {
+                        
+                        moveCount.add(1);
+                        for (int i = 0; i < moveCount.size(); i++){
+                            
+                            storeMoves += moveCount.get(i);
+                            
+                        }
+                        
                         enemyHealth -= statObj.getPlayerAttack();
                         //this prevents negative outputs of enemyHealth, BUT it makes it so if you kill the unknown in one hit, then it doesn't display its health
                         if (enemyHealth > 0) {
@@ -71,11 +96,17 @@ public class FightAI {
                             System.out.println("You killed the unknown. ");
                             deathCount.add(1);
                             for (int i = 0; i < deathCount.size(); i++) {
-                                store += deathCount.get(i);
+                                storeDeaths += deathCount.get(i);
                             }
 
-                            System.out.println("Total unknowns slain: " + store);
+                            System.out.println("Total unknowns slain: " + storeDeaths);
+                            
+                            System.out.println("Total moves: " + storeMoves);
+                            
+                            //random int for producing whether or not player got item
                             randomInt = 1 + num.nextInt(500);
+                            
+                            //this is the int that randomInt must equal in order to get item
                             if (randomInt == 420) {
                                 itemCount++;
                             }

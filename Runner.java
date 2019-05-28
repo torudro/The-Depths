@@ -7,58 +7,50 @@ public class Runner {
 
     static Scanner scan = new Scanner(System.in);
 
-    //scanner use
-    protected static String option;
-
     public static void main(String[] args) {
+
+        //scanner use
+        String option;
+
+        //creates InfoGrabber object to incorporate user stats. passes in values.
+        InfoGrabber infoObj = new InfoGrabber();
+
 //creates FightAI object to incorpate combat
-        FightAI fightObj = new FightAI();
+        FightAI fightObj = new FightAI(infoObj);
 
         //creates messages object to incorporate plot
         Messages msgObj = new Messages();
 
-        //creates InfoGrabber object to incorporate user stats
-        InfoGrabber infoObj = new InfoGrabber();
-
         //creates StatSetter object to incorporate use of total variable it contains
-        StatSetter statObj = new StatSetter();
-
-        //prompts and info taken through scanners
-        infoObj.promptName();
-        infoObj.setName(scan.nextLine());
-
-        infoObj.promptAge();
-        infoObj.setAge(scan.nextInt());
-
-        infoObj.promptHeight();
-        infoObj.setHeight(scan.nextInt());
-
-        infoObj.promptWeight();
-        infoObj.setWeight(scan.nextInt());
+        StatSetter statObj = new StatSetter(infoObj);
 
         msgObj.getScreenBlock();
 
         msgObj.getVoidEntryMsg();
 
         option = scan.next();
+        msgObj.correctCheck(option);
         msgObj.getSeparator();
 //  OUTER A IF INSPECT LIGHT POLE
         if (option.equals("a")) {
 
             msgObj.getInspectLightPole();
             option = scan.next();
+            msgObj.correctCheck(option);
             msgObj.getSeparator();
             //CLIMB THE LIGHT POLE AFTER MOVING CLOSER *PROMPTED BY OUTTER IF*
             if (option.equals("a")) {
 
                 msgObj.getClimbLightPole();
                 option = scan.next();
+                msgObj.correctCheck(option);
                 msgObj.getSeparator();
                 //STAY ON LIGHT BULB
                 if (option.equals("a")) {
 
                     msgObj.getStayOnLightPole();
                     option = scan.next();
+                    msgObj.correctCheck(option);
                     msgObj.getSeparator();
                     //JUMP FROM LIGHTPOLE... DIE
                     if (option.equals("a")) {
@@ -85,6 +77,7 @@ public class Runner {
                         + "[b] walk towards the light pole\n");
 
                 option = scan.next();
+                msgObj.correctCheck(option);
                 msgObj.getSeparator();
                 //TRANSPORT.
                 if (option.equals("a")) {
@@ -95,18 +88,21 @@ public class Runner {
 
                     msgObj.getInspectLightPole();
                     option = scan.next();
+                    msgObj.correctCheck(option);
                     msgObj.getSeparator();
                     //CLIMB LIGHT POLL
                     if (option.equals("a")) {
 
                         msgObj.getClimbLightPole();
                         option = scan.next();
+                        msgObj.correctCheck(option);
                         msgObj.getSeparator();
                         //STAY PUT ON LIGHTBULB
                         if (option.equals("a")) {
 
                             msgObj.getStayOnLightPole();
                             option = scan.next();
+                            msgObj.correctCheck(option);
                             msgObj.getSeparator();
                             //JUMP FROM LIGHT POLE
                             if (option.equals("a")) {
@@ -142,24 +138,28 @@ public class Runner {
             System.out.printf("\n[a] Walk towards the lightpole. \n"
                     + "[b] wait longer \n");
             option = scan.next();
+            msgObj.correctCheck(option);
             msgObj.getSeparator();
             //INSPECT LIGHTPOLE *PROMPTED BY B OUTTER*
             if (option.equals("a")) {
                 msgObj.getInspectLightPole();
 
                 option = scan.next();
+                msgObj.correctCheck(option);
                 msgObj.getSeparator();
                 if (option.equals("a")) {
 
                     msgObj.getClimbLightPole();
 
                     option = scan.next();
+                    msgObj.correctCheck(option);
                     msgObj.getSeparator();
                     if (option.equals("a")) {
 
                         msgObj.getStayOnLightPole();
 
                         option = scan.next();
+                        msgObj.correctCheck(option);
                         msgObj.getSeparator();
                         if (option.equals("a")) {
 
@@ -194,6 +194,7 @@ public class Runner {
                         + "[b] Climb the light pole\n");
 
                 option = scan.next();
+                msgObj.correctCheck(option);
                 msgObj.getSeparator();
                 //TRANSPORT.
                 if (option.equals("a")) {
@@ -241,6 +242,7 @@ public class Runner {
                     + "[a] run to the light in the opposite direction \n"
                     + "[b] observe what the figure is doing \n");
             option = scan.next();
+            msgObj.correctCheck(option);
             msgObj.getSeparator();
             //walk to light in opposite direction *PROMPTED BY C OUTTER*
             if (option.equals("a")) {
@@ -249,15 +251,17 @@ public class Runner {
                         + "[a] keep running to the light you were facing \n"
                         + "[b] go to the edge of the woods\n");
                 option = scan.next();
+                msgObj.correctCheck(option);
                 //TRANSPORT.
                 if (option.equals("a")) {
 
                     System.out.printf("\nA demon runs from the woodline and intercepts you. Something else comes into sight... \n");
+
                     msgObj.woosh();
                     //DEATH
                 } else if (option.equals("b")) {
 
-                    System.out.printf("\nYou go to the edge of the woods. A demon greets you. ");
+                    System.out.printf("\nYou go to the edge of the woods. A demon greets you. \n");
                     msgObj.getDeath();
                     System.out.print(infoObj.getName());
                     System.exit(0);
@@ -265,18 +269,21 @@ public class Runner {
                 //OBSERVE FIGURE *PROMPTED BY C OUTTER*
             } else if (option.equals("b")) {
                 System.out.printf("\nThe figure begins to fly to you. \n");
+
                 msgObj.woosh();
+
             }
 
         }
 
-//calls fight ai
-        System.out.println("test1");
-        if (statObj.getTotal() > 1500) {
+//calls fight ai if total less than or qual to 1500. if more than, easter egg
+        
+        if (statObj.getTotal(infoObj) > 1500) {
             msgObj.getPowerfulBeing();
             msgObj.getEndMessage();
-        } else if (statObj.getTotal() <= 1500) {
-            fightObj.AI();
+        } else if (statObj.getTotal(infoObj) <= 1500) {
+            System.out.println("test1");
+            fightObj.AI(infoObj);
             msgObj.getEndMessage();
         }
 
