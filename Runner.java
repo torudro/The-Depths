@@ -15,14 +15,14 @@ public class Runner {
         //creates InfoGrabber object to incorporate user stats. passes in values.
         InfoGrabber infoObj = new InfoGrabber();
 
+        //creates StatSetter object to incorporate use of total variable it contains
+        StatSetter statObj = new StatSetter();
+
 //creates FightAI object to incorpate combat
-        FightAI fightObj = new FightAI(infoObj);
+        FightAI fightObj = new FightAI(infoObj, statObj);
 
         //creates messages object to incorporate plot
         Messages msgObj = new Messages();
-
-        //creates StatSetter object to incorporate use of total variable it contains
-        StatSetter statObj = new StatSetter(infoObj);
 
         msgObj.getScreenBlock();
 
@@ -277,13 +277,12 @@ public class Runner {
         }
 
 //calls fight ai if total less than or qual to 1500. if more than, easter egg
-        
         if (statObj.getTotal(infoObj) > 1500) {
             msgObj.getPowerfulBeing();
             msgObj.getEndMessage();
         } else if (statObj.getTotal(infoObj) <= 1500) {
             System.out.println("test1");
-            fightObj.AI(infoObj);
+            fightObj.AI(infoObj, statObj);
             msgObj.getEndMessage();
         }
 

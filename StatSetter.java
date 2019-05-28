@@ -3,21 +3,16 @@ package thedepths;
 import java.util.Scanner;
 
 public class StatSetter {
-    
-    
-    //formula is (weight* height)/(age)
 
+    //formula is (weight* height)/(age)
     //act as sentinels for if statements
     private final int QUARTILE_1 = 400;
     private final int QUARTILE_2 = 950;
     private final int QUARTILE_3 = 1500;
-    //private  int total = ((weight * height) / (age));
 
     private int playerHealth;
     private int playerAttack;
 
-   
-      
     //getters
     public int getTotal(InfoGrabber infoObj) {
         return ((infoObj.weight * infoObj.height) / (infoObj.age));
@@ -43,8 +38,8 @@ public class StatSetter {
     }
 
     //sets stats based on player total
-    public void setStats(InfoGrabber infoObj){
-        
+    public void setStats(InfoGrabber infoObj) {
+
         //if total is less than or equal to 400, then set
         if ((infoObj.weight * infoObj.height) / (infoObj.age) <= QUARTILE_1) {
 
@@ -71,10 +66,10 @@ public class StatSetter {
             playerHealth += 20;
         }
 
-        
     }
+
     //passes in infoObj, notice how it does not call it because if you called it then it would call the prompts
-    public StatSetter(InfoGrabber infoObj) {
-      
+    public StatSetter() {
+
     }
 }

@@ -6,34 +6,32 @@ import java.util.Scanner;
 
 public class FightAI {
 
-    
-    public FightAI(InfoGrabber infoObj){
-        
-    }
-    
-    
-    //if you are not dead, then you progress.
-    
-    
+    public FightAI(InfoGrabber infoObj, StatSetter statObj) {
 
-    public void AI(InfoGrabber infoObj) {
+    }
+
+    //if you are not dead, then you progress.
+    public void AI(InfoGrabber infoObj, StatSetter statObj) {
         Messages msgObj = new Messages();
-    StatSetter statObj = new StatSetter(infoObj);
-    Scanner scan = new Scanner(System.in);
-    String option;
-        
+
+        //calls setStats to set player health and attack
+        statObj.setStats(infoObj);
+
+        Scanner scan = new Scanner(System.in);
+        String option;
+
         //used for random number calculation
-     Random num = new Random();
-        
+        Random num = new Random();
+
         //keeps count number of enemies killed
-    ArrayList<Integer> deathCount = new ArrayList();
-    
-    //keeps count number of moves
-            ArrayList<Integer> moveCount = new ArrayList();
-    
-            //used with moveCount list to display the sum of the values in moveCount
-            int storeMoves = 0;
-            
+        ArrayList<Integer> deathCount = new ArrayList();
+
+        //keeps count number of moves
+        ArrayList<Integer> moveCount = new ArrayList();
+
+        //used with moveCount list to display the sum of the values in moveCount
+        int storeMoves = 0;
+
         //used with deathCount list to display the sum of values in deathCount
         int storeDeaths = 0;
 
@@ -64,14 +62,14 @@ public class FightAI {
                     enemyAttack = 1 + num.nextInt(70);
                     //takes enemyhealth based on user attack amnt
                     while (enemyHealth > 0) {
-                        
+
                         moveCount.add(1);
-                        for (int i = 0; i < moveCount.size(); i++){
-                            
+                        for (int i = 0; i < moveCount.size(); i++) {
+
                             storeMoves += moveCount.get(i);
-                            
+
                         }
-                        
+
                         enemyHealth -= statObj.getPlayerAttack();
                         //this prevents negative outputs of enemyHealth, BUT it makes it so if you kill the unknown in one hit, then it doesn't display its health
                         if (enemyHealth > 0) {
@@ -79,6 +77,7 @@ public class FightAI {
                             System.out.print("The unknown attacked you!");
                             if (statObj.getPlayerHealth() <= 0) {
                                 msgObj.getDeath();
+                                System.out.println(infoObj.name);
                                 //if you are dead, the program terminates.
                                 System.exit(0);
                             }
@@ -100,12 +99,12 @@ public class FightAI {
                             }
 
                             System.out.println("Total unknowns slain: " + storeDeaths);
-                            
+
                             System.out.println("Total moves: " + storeMoves);
-                            
+
                             //random int for producing whether or not player got item
                             randomInt = 1 + num.nextInt(500);
-                            
+
                             //this is the int that randomInt must equal in order to get item
                             if (randomInt == 420) {
                                 itemCount++;
@@ -113,12 +112,17 @@ public class FightAI {
                         }
                         if (statObj.getPlayerHealth() <= 0) {
                             msgObj.getDeath();
+                            System.out.println(infoObj.name);
                             //if dead, program terminates
                             System.exit(0);
                         }
                     }
 
                 } else if (option.equals("b")) {
+                    //adds 20 to player's health
+                    int restoreHold = statObj.getPlayerHealth() + 20;
+                    statObj.setPlayerHealth(restoreHold);
+
                     //enemy attack is lower because you are on guard
                     enemyAttack = 1 + num.nextInt(20);
                     msgObj.getSeparator();

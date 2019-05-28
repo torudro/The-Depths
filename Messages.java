@@ -123,7 +123,7 @@ public class Messages {
 
     //exits if user has entered incorrectly.
     void correctCheck(String option) {
-        
+
         if (!(option.equals("a")) && !(option.equals("b"))) {
 
             System.out.printf("\n*******************\nIncorrect entry.\n*******************\n");
