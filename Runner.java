@@ -29,7 +29,6 @@ public class Runner {
         msgObj.getVoidEntryMsg();
 
         option = scan.next();
-        msgObj.correctCheck(option);
         msgObj.getSeparator();
 //  OUTER A IF INSPECT LIGHT POLE
         if (option.equals("a")) {
@@ -276,12 +275,12 @@ public class Runner {
 
         }
 
-//calls fight ai if total less than or qual to 1500. if more than, easter egg
+//calls fight ai if jojoless than or qual to 1500. if more than, easter egg
         if (statObj.getTotal(infoObj) > 1500) {
             msgObj.getPowerfulBeing();
             msgObj.getEndMessage();
         } else if (statObj.getTotal(infoObj) <= 1500) {
-            System.out.println("test1");
+            
             fightObj.AI(infoObj, statObj);
             msgObj.getEndMessage();
         }
